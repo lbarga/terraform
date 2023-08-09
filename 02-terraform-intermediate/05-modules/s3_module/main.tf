@@ -39,6 +39,7 @@ resource "aws_s3_bucket_website_configuration" "this-configuration" {
   }
 }
 
+# use this to turn s3 bucket public
 resource "aws_s3_bucket_policy" "this-policy" {
   bucket = aws_s3_bucket.this.id
 
