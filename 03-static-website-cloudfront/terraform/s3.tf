@@ -5,6 +5,8 @@ resource "aws_s3_bucket" "site" {
 }
 
 resource "aws_s3_bucket_public_access_block" "site" {
+  depends_on = [aws_s3_bucket.site]
+
   bucket = aws_s3_bucket.site.id
 
   block_public_acls       = false
@@ -14,6 +16,8 @@ resource "aws_s3_bucket_public_access_block" "site" {
 }
 
 resource "aws_s3_bucket_website_configuration" "site" {
+  depends_on = [aws_s3_bucket.site]
+
   bucket = aws_s3_bucket.site.id
 
   index_document {
@@ -26,6 +30,8 @@ resource "aws_s3_bucket_website_configuration" "site" {
 }
 
 resource "aws_s3_bucket_policy" "site" {
+  depends_on = [aws_s3_bucket.site, aws_s3_bucket_public_access_block.site]
+
   bucket = aws_s3_bucket.site.id
 
   policy = jsonencode({
