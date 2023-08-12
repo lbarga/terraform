@@ -6,6 +6,8 @@ resource "aws_s3_bucket" "todo" {
 }
 
 resource "aws_s3_bucket_notification" "lambda" {
+  depends_on = [aws_s3_bucket.todo]
+
   bucket = aws_s3_bucket.todo.id
 
   lambda_function {
