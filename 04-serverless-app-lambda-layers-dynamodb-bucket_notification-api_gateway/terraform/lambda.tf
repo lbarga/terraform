@@ -76,3 +76,11 @@ resource "aws_lambda_function" "dynamo" {
     }
   }
 }
+
+resource "aws_lambda_permission" "dynamo" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.dynamo.arn
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:*/*"
+}
