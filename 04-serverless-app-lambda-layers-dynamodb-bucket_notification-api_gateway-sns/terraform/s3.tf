@@ -1,8 +1,9 @@
 resource "random_pet" "bucket" {}
 
 resource "aws_s3_bucket" "todo" {
-  bucket = "${var.service_domain}-${random_pet.bucket.id}"
-  tags   = local.common_tags
+  bucket        = "${var.service_domain}-${random_pet.bucket.id}"
+  tags          = local.common_tags
+  force_destroy = true #doenst work last time
 }
 
 resource "aws_s3_bucket_notification" "lambda" {
