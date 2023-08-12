@@ -21,9 +21,3 @@ variable "service_domain" {
   description = ""
   default     = "api-todo"
 }
-
-variable "aws_account_id" {
-  type        = number
-  description = ""
-  default     = 968339500772
-}

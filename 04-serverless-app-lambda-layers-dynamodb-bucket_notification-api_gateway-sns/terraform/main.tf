@@ -29,3 +29,5 @@ provider "aws" {
 resource "random_pet" "site" {
   length = 5
 }
+
+data "aws_caller_identity" "current" {}
