@@ -37,10 +37,12 @@ resource "aws_s3_bucket_policy" "site" {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid       = "PublicReadGetObject"
-        Effect    = "Allow"
-        Principal = "*"
-        Action    = "s3:GetObject"
+        Sid    = "PublicReadGetObject"
+        Effect = "Allow"
+        Principal = {
+          "AWS" : "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${aws_cloudfront_origin_access_identity.cloudfront.id}"
+        }
+        Action = "s3:GetObject"
         Resource = [
           aws_s3_bucket.site.arn,
           "${aws_s3_bucket.site.arn}/*",

@@ -1,4 +1,4 @@
-resource "aws_cloudfront_origin_access_identity" "origin_access" {
+resource "aws_cloudfront_origin_access_identity" "cloudfront" {
   comment = local.domain
 }
 
@@ -38,7 +38,7 @@ resource "aws_cloudfront_distribution" "cloudfront" {
     origin_id   = aws_s3_bucket.site.bucket_regional_domain_name
 
     s3_origin_config {
-      origin_access_identity = aws_cloudfront_origin_access_identity.origin_access.cloudfront_access_identity_path
+      origin_access_identity = aws_cloudfront_origin_access_identity.cloudfront.cloudfront_access_identity_path
     }
   }
 
