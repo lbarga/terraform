@@ -3,13 +3,11 @@ resource "aws_cloudfront_origin_access_identity" "origin_access" {
 }
 
 resource "aws_cloudfront_distribution" "cloudfront" {
-  enabled = true
-
-  is_ipv6_enabled = true
-
-  comment = "Managed by Terraform"
-
+  enabled             = true
+  is_ipv6_enabled     = true
+  comment             = "Managed by Terraform"
   default_root_object = "index.html"
+  aliases             = [local.domain, "*.${local.domain}"]
 
   default_cache_behavior {
     allowed_methods = ["HEAD", "GET", "OPTIONS"]
@@ -51,7 +49,8 @@ resource "aws_cloudfront_distribution" "cloudfront" {
   }
 
   viewer_certificate {
-    cloudfront_default_certificate = true
+    acm_certificate_arn = aws_acm_certificate.this.arn
+    ssl_support_method  = "sni-only"
   }
 
   tags = local.common_tags

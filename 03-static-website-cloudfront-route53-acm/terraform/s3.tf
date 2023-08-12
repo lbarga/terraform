@@ -1,7 +1,6 @@
 resource "aws_s3_bucket" "site" {
-  bucket = local.bucket_name
-
-  tags = local.common_tags
+  bucket = local.domain
+  tags   = local.common_tags
 }
 
 resource "aws_s3_bucket_public_access_block" "site" {
@@ -16,7 +15,7 @@ resource "aws_s3_bucket_public_access_block" "site" {
 }
 
 resource "aws_s3_bucket_website_configuration" "site" {
-  depends_on = [aws_s3_bucket.site]
+  depends_on = [aws_s3_bucket.site, aws_s3_bucket_public_access_block.site]
 
   bucket = aws_s3_bucket.site.id
 
@@ -30,7 +29,7 @@ resource "aws_s3_bucket_website_configuration" "site" {
 }
 
 resource "aws_s3_bucket_policy" "site" {
-  depends_on = [aws_s3_bucket.site, aws_s3_bucket_public_access_block.site]
+  depends_on = [aws_s3_bucket.site, aws_s3_bucket_public_access_block.site, aws_s3_bucket_website_configuration.site]
 
   bucket = aws_s3_bucket.site.id
 
