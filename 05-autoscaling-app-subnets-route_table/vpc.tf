@@ -22,3 +22,26 @@ resource "aws_subnet" "this" {
 
   tags = merge(local.common_tags, { Name = each.value[2] })
 }
+
+resource "aws_route_table" "public" {
+  vpc_id = aws_vpc.this.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.this.id
+  }
+
+  tags = merge(local.common_tags, { Name = "terraform-public" })
+}
+
+resource "aws_route_table" "private" {
+  vpc_id = aws_vpc.this.id
+  tags   = merge(local.common_tags, { Name = "terraform-private" })
+}
+
+resource "aws_route_table_association" "this" {
+  for_each = local.subnet_ids
+
+  subnet_id      = each.value
+  route_table_id = substr(each.key, 0, 3) == "pub" ? aws_route_table.public.id : aws_route_table.private.id
+}

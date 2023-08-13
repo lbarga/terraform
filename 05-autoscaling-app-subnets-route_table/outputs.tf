@@ -9,3 +9,7 @@ output "igw_id" {
 output "subnet_ids" {
   value = local.subnet_ids
 }
+
+output "route_table_assossiation_ids" {
+  value = [for k, v in aws_route_table_association.this : v.id]
+}
