@@ -76,3 +76,25 @@ resource "aws_security_group" "db" {
 
   tags = merge(local.common_tags, { Name = "database-mysql" })
 }
+
+resource "aws_security_group" "load_balancer" {
+  name        = "load_balancer-security_group"
+  description = "load_balancer-security_group"
+  vpc_id      = aws_vpc.this.id
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = merge(local.common_tags, { Name = "load_balancer" })
+}
