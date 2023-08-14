@@ -10,3 +10,6 @@
 - create load balancer
 - create auto scaling
 - create cloudwatch
+- rds
+
+\*instance intermittently starting
